@@ -1,6 +1,6 @@
 [project]
 name = "FailoverCache"
-version = "0.0.2"
+version = "1.0.0"
 description = "A flexible Python cache system with automatic fallback to disk when Redis is unavailable"
 authors = [{ name = "Endkind", email = "endkind.ender@endkind.net" }]
 readme = "README.md"
