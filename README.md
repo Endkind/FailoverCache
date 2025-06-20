@@ -1,5 +1,3 @@
-# README.md
-
 # FailoverCache
 
 **FailoverCache** is a flexible and persistent Python caching library that automatically falls back to disk storage when Redis is unavailable. Ideal for development and production environments where Redis may not always be present.
@@ -20,7 +18,7 @@
 ## 📦 Installation
 
 ```bash
-pip install redis diskcache
+pip install FailoverCache
 ```
 
 ---
