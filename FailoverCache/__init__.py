@@ -1,7 +1,10 @@
-from typing import Callable, Optional
+import inspect
+from typing import Awaitable, Callable, Optional, TypeVar, Union
 
 from diskcache import Cache as DiskCache
 from redis import Redis
+
+T = TypeVar("T")
 
 
 class FailoverCache:
@@ -67,13 +70,19 @@ class FailoverCache:
         self.forget(key)
         return value
 
-    def remember(self, key: str, callback: Callable[[], str], ttl: int = 60) -> str:
+    async def remember(
+        self, key: str, callback: Callable[[], Union[T, Awaitable[T]]], ttl: int = 60
+    ) -> T:
         value = self.get(key)
         if value is not None:
             return value
-        value = callback()
-        self.put(key, value, ttl)
-        return value
+
+        result = callback()
+        if inspect.isawaitable(result):
+            result = await result
+
+        self.put(key, result, ttl)
+        return result
 
     def flush(self) -> None:
         if isinstance(self.redis, Redis):
